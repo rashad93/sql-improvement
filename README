@@ -121,4 +121,12 @@ GROUP BY Jobs.id
 ORDER BY Jobs.sort_order desc,
 Jobs.id DESC LIMIT 50 OFFSET 0
 
-1. 
+1. Use the keyword EXPLAIN e.g (EXPLAIN SELECT Jobs.id AS `Jobs__id`, Jobs.name AS `Jobs__name`, Jobs.media_id AS `Jobs__media_id` ...)
+which will show the table that is adding time to the total query time.
+2. Introduce INDEXING to the query/table especially on the keys that are used for LEFT JOIN and INNER JOIN e.g. ( LEFT JOIN jobs_tools JobsTools
+ON Jobs.id = (JobsTools.job_id)  ). Add the index through the query like so (ALTER TABLE job_tools INDEX(job_tools.id) ). This will reduced the query time substanstially.
+3. Avoid using WILDCARDS such as e.g ( Jobs.remarks LIKE '%キャビンアテンダント%' ..) instead use FULL TEXT SEARCH (FTS) e.g
+  (ADD FULLTEXT (Jobs.remarks, PracticalSKills.name, CareerPaths.name ..) )
+4.  
+ 
+
